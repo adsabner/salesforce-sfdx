@@ -1,28 +1,18 @@
-# trailhed.sfdc
-This repository is intended for trailhead learning and skill improvement.
+# Salesforce DX Project: Next Steps
 
+Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
-## DX Development Flow
+## How Do You Plan to Deploy Your Changes?
 
-1. Create the scratch org:
+Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
 
-sfdx org create scratch --definition-file config/project-scratch-def.json --wait 30 --alias [aliasname] --target-dev-hub [DevHub]
+## Configure Your Salesforce DX Project
 
-- Example:
-sfdx org create scratch --definition-file config/project-scratch-def.json --wait 30 --alias SFDC-LWC --target-dev-hub TrailHead
+The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
 
-2. Upload code to your newly created scratch org:
+## Read All About It
 
-sfdx force:source:push -u [aliasname]
-
-3. Give Marketplace Admin permission to default user
-
-sfdx force:user:permset:assign -n Marketplace_Admin -u [aliasname]
-
-4. Open scratch org to make your adjustments and make your code
-
-sfdx force:org:open -u [aliasname]
-
-5. Update your code with the changes made to the Org:
-
-sfdx force:source:pull -u [aliasname]
+- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
+- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
+- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
+- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
