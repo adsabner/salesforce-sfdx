@@ -7,6 +7,9 @@ Now that you’ve created a Salesforce DX project, what’s next? Here are some 
 # Create new scratch org
 sf org create scratch -f config/project-scratch-def.json -a ACR36_SFDC -y 30 -v DevHub-Trailhead -w 30 -d -c
 
+# Deploy
+sfdx force:source:deploy -p <Path>
+
 # Status org's
 sfdx org list
 
