@@ -10,7 +10,8 @@ Do you want to deploy a set of changes, or create a self-contained application? 
 
 The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
 
-sfdx org create scratch --definition-file config/enterprise-scratch-def.json --wait 3 --alias MyScratchOrg --target-dev-hub MyDevHub
+sfdx org create scratch --definition-file config/project-scratch-def.json --wait 30 --alias ACR36_SFDC --target-dev-hub DevHub-Trailhead
+sf org create scratch -f config/project-scratch-def.json -a ACR36_SFDC -y 30 -v DevHub-Trailhead -w 30 -d -c
 
 ## Read All About It
 
