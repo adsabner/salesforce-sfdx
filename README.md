@@ -1,17 +1,53 @@
 # Salesforce DX Project: Next Steps
-
 Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
-## How Do You Plan to Deploy Your Changes?
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+## Commands SFDX ##
 
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-sfdx org create scratch --definition-file config/project-scratch-def.json --wait 30 --alias ACR36_SFDC --target-dev-hub DevHub-Trailhead
+# Create new scratch org
 sf org create scratch -f config/project-scratch-def.json -a ACR36_SFDC -y 30 -v DevHub-Trailhead -w 30 -d -c
+
+# Status org's
+sfdx org list
+
+# Authorize a devhub
+sfdx force:auth:web:login --setdefaultdevhubusername
+
+# Set default username
+sfdx config:set defaultusername=<username>
+
+# Push in scratch org
+sfdx force:source:push -f
+
+# Pull in scratch org
+sfdx force:source:pull -f
+
+## Commands Git ##
+
+# Clone repositories
+git clone <path repository>
+
+# Create new brantch
+git checkout -b ＜new-branch＞
+
+# Mudando de brantch
+git checkout ＜branchname＞
+
+# Buscar os commits remotos mais recentes
+git fetch
+
+# Atualizar um repositorio
+git pull
+
+# Verificar o status da brantch
+git status
+
+# Add alguns arquivos
+git add <file>
+
+# Comitar arquivos adicionados
+git commit -m "message"
+
 
 ## Read All About It
 
