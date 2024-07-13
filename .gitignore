@@ -38,3 +38,21 @@ $RECYCLE.BIN/
 
 # Local environment variables
 .env
+
+# Salesforce
+.github
+.husky
+.vscode
+.husky
+config
+manifest
+scripts
+.eslintignore
+.forceignore
+.prettierignore
+.prettierrc
+jest.config.js
+package.json
+README.md
+sfdx-project.json
+force-app/main/default/soqls
