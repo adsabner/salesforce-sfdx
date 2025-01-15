@@ -36,7 +36,7 @@ Este comando cria um repositório Git vazio, basicamente um diretório .git com 
 Para vincular este repositório remoto ao seu repositório local, utilize:
 
 ```
-git remote add origin https://github.com/PicPay/salesforce-pj.git
+git remote add origin https://github.com/SFDC-ADS-Salesforce/salesforce-sfdx.git
 ```
 
 Para baixar commits, arquivos e referências de um repositório remoto para seu repositório local, utilize:
