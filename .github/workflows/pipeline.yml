@@ -1,1 +1,55 @@
+# This is a basic workflow to help you get started with Actions
 
+name: Deploy to Salesforce Pipeline
+
+# Controla quando a ação será executada. Aciona o fluxo de trabalho em push ou pull request
+# eventos, mas apenas para o branch master
+on:
+  push:
+    branches: [ master ]
+
+# Uma execução de fluxo de trabalho é composta por um ou mais trabalhos que podem ser executados sequencialmente ou em paralelo
+jobs:
+# Este fluxo de trabalho contém um único trabalho chamado "build"
+  build:
+  # O tipo de executor no qual o trabalho será executado
+    runs-on: ubuntu-latest
+
+    # As etapas representam uma sequência de tarefas que serão executadas como parte do trabalho
+    steps:
+    # Faz check-out do seu repositório em $GITHUB_WORKSPACE, para que seu trabalho possa acessá-lo
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Setup Node
+    - name: Setup Node
+      uses: actions/setup-node@v3
+
+    # Install SFDX CLI
+    - name: Install SFDX CLI
+      run: npm install sfdx-cli -g
+
+    # Authorize SF Org
+    - name: Authorize SF Org
+      env:
+        CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
+        USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
+        INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
+        SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
+      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $SERVER_KEY --username $USERNAME --instanceurl $INSTANCE_URL -a PROD
+
+    # Convert to Deploy Source
+    - name: Convert to Deploy Source
+      run: sfdx force:source:convert --manifest=package/package.xml -d ./toDeploy
+
+    # Remove Profile User Permissions
+    - name: Remove Profile User Permissions
+      run: bash ./scripts/removeProfileUserPermissions.sh
+
+    # Run Validation of Deploy Source
+    - name: Run Validation on Deploy Source
+      run: sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u PROD -w 10
+
+    # Deploy
+    - name : Deploy to SF Org
+      run: sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u PROD -w 10
