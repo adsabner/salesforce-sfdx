@@ -35,7 +35,7 @@ jobs:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
-        SERVER_KEY: ${{ SALESFORCE_JWT_SERVER_KEY }}
+        SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
       run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $SERVER_KEY --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
 
     # Convert to Deploy Source
