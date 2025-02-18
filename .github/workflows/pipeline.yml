@@ -34,8 +34,8 @@ jobs:
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
-        SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
-      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $SERVER_KEY --username $USERNAME --set-default-dev-hub -a PROD
+        INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
+      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile ./buildfiles/server.key --username $USERNAME --set-default-dev-hub -a PRD
 
     # Convert to Deploy Source
     - name: Convert to Deploy Source
