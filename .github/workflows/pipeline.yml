@@ -28,15 +28,14 @@ jobs:
     # Install SFDX CLI
     - name: Install SFDX CLI
       run: npm install sfdx-cli -g
-    - run: echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
+      
     # Authorize SF Org
     - name: Authorize SF Org
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
-        SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
-      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile=server.key --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
+      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile ./buildfiles/server.key --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
 
     # Convert to Deploy Source
     - name: Convert to Deploy Source
