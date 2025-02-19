@@ -24,6 +24,8 @@ jobs:
     # Setup Node
     - name: Setup Node
       uses: actions/setup-node@v3
+      with:
+        node-version: 22.
 
     # Install SFDX CLI
     - name: Install SFDX CLI
@@ -36,7 +38,7 @@ jobs:
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
         SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
-      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $SERVER_KEY --username $USERNAME --instanceurl $INSTANCE_URL -a PROD
+      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile ./buildfiles/server.key --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
 
     # Convert to Deploy Source
     - name: Convert to Deploy Source
