@@ -38,14 +38,20 @@ jobs:
       run: |
         sf org login jwt --client-id $CLIENT_ID --jwt-key-file ./buildfiles/server.key --username $USERNAME --instance-url $INSTANCE_URL --set-default --alias PRD || exit 1
 
+    # Confirmando Autenticacao
+    - name: Confirmando Autenticacao
+      run: sfdx force:org:list
+
     - name: Converter código para formato de deploy
       run: sf project convert source --manifest=package/package.xml --output-dir=./toDeploy
 
     - name: Remover permissões de usuário dos perfis
       run: bash ./scripts/removeProfileUserPermissions.sh
 
+    # Run Validation of Deploy Source
     - name: Validar código antes do deploy
       run: sf project deploy start --test-level RunLocalTests --check-only --metadata-dir ./toDeploy --target-org PROD --wait 10
-
+      
+    # Deploy
     - name: Realizar deploy no Salesforce
       run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --target-org PROD --wait 10
