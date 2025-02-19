@@ -27,18 +27,22 @@ jobs:
       with:
         node-version: 22.
 
-    # Install SFDX CLI
-    - name: Install SFDX CLI
+    # Instalando SFDX CLI
+    - name: Instalando SFDX CLI
       run: npm install sfdx-cli -g
 
-    # Authorize SF Org
-    - name: Authorize SF Org
+    # Authorizando SF Org
+    - name: Authorizando SF Org
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
         SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
       run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile ./buildfiles/server.key --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
+
+    # Confirmando Autenticacao
+    - name: Confirmando Autenticacao
+      run: sfdx force:org:list
 
     # Convert to Deploy Source
     - name: Convert to Deploy Source
@@ -50,8 +54,8 @@ jobs:
 
     # Run Validation of Deploy Source
     - name: Run Validation on Deploy Source
-      run: sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u PROD -w 10
+      run: sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u PRD -w 10
 
     # Deploy
     - name : Deploy to SF Org
-      run: sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u PROD -w 10
+      run: sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u PRD -w 10
