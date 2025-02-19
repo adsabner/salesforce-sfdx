@@ -1,61 +1,57 @@
-# This is a basic workflow to help you get started with Actions
+name: Deploy para Salesforce Pipeline
 
-name: Deploy to Salesforce Pipeline
-
-# Controla quando a ação será executada. Aciona o fluxo de trabalho em push ou pull request
-# eventos, mas apenas para o branch master
 on:
   push:
     branches: [ master ]
+    paths:
+        - 'force-app/**'
 
-# Uma execução de fluxo de trabalho é composta por um ou mais trabalhos que podem ser executados sequencialmente ou em paralelo
 jobs:
-# Este fluxo de trabalho contém um único trabalho chamado "build"
   build:
-  # O tipo de executor no qual o trabalho será executado
     runs-on: ubuntu-latest
 
-    # As etapas representam uma sequência de tarefas que serão executadas como parte do trabalho
     steps:
-    # Faz check-out do seu repositório em $GITHUB_WORKSPACE, para que seu trabalho possa acessá-lo
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Baixar código do repositório
+      uses: actions/checkout@v4
 
-    # Setup Node
-    - name: Setup Node
-      uses: actions/setup-node@v3
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: 22.
+        node-version: 22
 
-    # Instalando SFDX CLI
-    - name: Instalando SFDX CLI
-      run: npm install sfdx-cli -g
+    - name: Cache do NPM
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          npm-${{ runner.os }}-
 
-    # Authorizando SF Org
-    - name: Authorizando SF Org
+    - name: Instalar Salesforce CLI
+      run: npm install --global @salesforce/cli
+
+    - name: Autorizar Org do Salesforce
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
-        SERVER_KEY: ${{ secrets.SALESFORCE_JWT_SERVER_KEY }}
-      run: sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile ./buildfiles/server.key --username $USERNAME --instanceurl $INSTANCE_URL -a PRD
+      run: |
+        sf org login jwt --client-id $CLIENT_ID --jwt-key-file ./buildfiles/server.key --username $USERNAME --instance-url $INSTANCE_URL --set-default --alias PRD || exit 1
 
     # Confirmando Autenticacao
     - name: Confirmando Autenticacao
       run: sfdx force:org:list
 
-    # Convert to Deploy Source
-    - name: Convert to Deploy Source
-      run: sfdx force:source:convert --manifest=package/package.xml -d ./toDeploy
+    - name: Converter código para formato de deploy
+      run: sf project convert source --manifest=package/package.xml --output-dir=./toDeploy
 
-    # Remove Profile User Permissions
-    - name: Remove Profile User Permissions
+    - name: Remover permissões de usuário dos perfis
       run: bash ./scripts/removeProfileUserPermissions.sh
 
     # Run Validation of Deploy Source
-    - name: Run Validation on Deploy Source
-      run: sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u PRD -w 10
-
+    - name: Validar código antes do deploy
+      run: sf project deploy start --test-level RunLocalTests --check-only --metadata-dir ./toDeploy --target-org PROD --wait 10
+      
     # Deploy
-    - name : Deploy to SF Org
-      run: sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u PRD -w 10
+    - name: Realizar deploy no Salesforce
+      run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --target-org PROD --wait 10

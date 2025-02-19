@@ -16,7 +16,6 @@ public class Metadado {
 
     @AuraEnabled(cacheable=false)
     public static List<Account> getConta(Id recordId, List<devmanju__Campos_Dinamicos__mdt> metadado) {
-
         try {
             List<String> accountFieldsList = new List<String>();
 
@@ -41,7 +40,8 @@ public class Metadado {
             System.debug('query ===> ' + query);
 
             List<Account> accounts = Database.query(query);
-            System.debug('accounts => '+accounts);
+
+            System.debug('accounts => '+JSON.serialize(accounts));
             return accounts;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
