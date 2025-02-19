@@ -16,6 +16,7 @@ public class Metadado {
 
     @AuraEnabled(cacheable=false)
     public static List<Account> getConta(Id recordId, List<devmanju__Campos_Dinamicos__mdt> metadado) {
+
         try {
             List<String> accountFieldsList = new List<String>();
 
