@@ -50,8 +50,8 @@ jobs:
 
     # Run Validation of Deploy Source
     - name: Validar código antes do deploy
-      run: sf project deploy start --test-level RunLocalTests --check-only --metadata-dir ./toDeploy --target-org PROD --wait 10
+      run: sf project deploy start --test-level RunLocalTests --check-only --metadata-dir ./toDeploy --namespace devmanju --target-org PROD --wait 10
       
     # Deploy
     - name: Realizar deploy no Salesforce
-      run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --target-org PROD --wait 10
+      run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --namespace devmanju --target-org PROD --wait 10
