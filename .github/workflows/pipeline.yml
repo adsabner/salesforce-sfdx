@@ -28,11 +28,11 @@ jobs:
         node-version: 22.
 
     # Installando SFDX CLI
-    - name: Install SFDX CLI
+    - name: Installando SFDX CLI
       run: npm install sfdx-cli -g
 
     # Authorizando SF Org
-    - name: Authorize SF Org
+    - name: Authorizando SF Org
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
         USERNAME: ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
