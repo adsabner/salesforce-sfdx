@@ -24,12 +24,15 @@ jobs:
     # Setup Node
     - name: Setup Node
       uses: actions/setup-node@v3
+      with:
+        node-version: 22.
 
-    # Install SFDX CLI
+    # Installando SFDX CLI
     - name: Install SFDX CLI
       run: npm install sfdx-cli -g
-      
-    # Authorize SF Org
+
+
+    # Authorizando SF Org
     - name: Authorize SF Org
       env:
         CLIENT_ID: ${{ secrets.SALESFORCE_CONSUMER_KEY }}
