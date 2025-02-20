@@ -41,7 +41,8 @@ public class Metadado {
             System.debug('query ===> ' + query);
 
             List<Account> accounts = Database.query(query);
-            System.debug('accounts => '+accounts);
+
+            System.debug('accounts => '+JSON.serialize(accounts));
             return accounts;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
