@@ -6,7 +6,7 @@
     }
   ],
   "name": "sfdc-lwc",
-  "namespace": "",
+  "namespace": "devmanju",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "55.0"
 }
