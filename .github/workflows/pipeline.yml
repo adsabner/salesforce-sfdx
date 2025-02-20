@@ -64,8 +64,9 @@ jobs:
 
     # Executar validação da fonte de implantação
     - name: Validar código antes do deploy
-      run: sf project deploy start --test-level RunLocalTests --check-only --metadata-dir ./toDeploy --namespace devmanju --target-org PRD --wait 10
+      run: sf project deploy start --test-level RunLocalTests --dry-run --metadata-dir ./toDeploy --target-org PRD --wait 10
 
-    # Implanta
-    - name: Realizar implantacao no Salesforce
-      run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --namespace devmanju --target-org PRD --wait 10
+    # Deploy
+    - name: Realizar implantação no Salesforce
+      run: sf project deploy start --test-level RunLocalTests --metadata-dir ./toDeploy --target-org PRD --wait 10
+
