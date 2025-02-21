@@ -161,7 +161,7 @@ public virtual class Filter {
 
     public List<SObject> filterByNotEmptyValue( List<SObject> newRecords, String field ){
 
-        List<SObject> filtered = new List<SObject>();
+        List<SObject> filtered = new List<SObject>(); 
 
         if( newRecords.isEmpty() || newRecords == null ) return filtered;
 

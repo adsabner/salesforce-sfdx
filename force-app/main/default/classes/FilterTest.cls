@@ -16,7 +16,6 @@ public class FilterTest {
         Account accountTwo = AccountFixtureFactory.newAccount ('Two Account');
         accountTwo.Type = 'Health Care';
         accountTwo.BillingStreet = 'BillingStreet';
-
         accounts.add(accountOne);
         accounts.add(accountTwo);
 
